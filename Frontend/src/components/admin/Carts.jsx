@@ -7,16 +7,21 @@ function Carts() {
     const [show, setShow] = useState(false);
     const [editCart, setEditCart] = useState(null);
     const [newCart, setNewCart] = useState({ user: { _id: '' }, products: [{ product: '', quantity: 1 }] });
+    const [error, setError] = useState(false)
 
     useEffect(() => {
         fetchCarts();
     }, []);
 
     const fetchCarts = async () => {
-        const response = await axios.get('http://localhost:5000/api/cart/all', {
-            headers: { 'x-auth-token': localStorage.getItem('token') }
-        });
-        setCarts(response.data);
+        try {
+            const response = await axios.get('http://localhost:5000/api/cart/all', {
+                headers: { 'x-auth-token': localStorage.getItem('token') }
+            });
+            setCarts(response.data);
+        } catch (error) {
+            setError(true)
+        }
     };
 
     const handleShow = (cart = null) => {
@@ -70,7 +75,7 @@ function Carts() {
             }
         }
     };
-
+    if (error) return (error && <h2>This page is only available for admin account, please <a href={window.location.origin + "/login"}>login</a> with admin account to use.</h2>)
     return (
         <>
             <h1>Carts</h1>

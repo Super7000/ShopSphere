@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 function ProductDetail() {
     const [product, setProduct] = useState(null);
     const { id } = useParams();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -18,14 +20,19 @@ function ProductDetail() {
     if (!product) return <div>Loading...</div>;
 
     async function addToCart() {
-        const res = await axios.post(`http://localhost:5000/api/cart`, {
-            productId: product._id,
-            quantity: 1,
-        }, {
-            headers: { 'x-auth-token': localStorage.getItem('token') },
-        });
-        console.log(res.data);
-        alert('Added to cart');
+        try {
+            const res = await axios.post(`http://localhost:5000/api/cart`, {
+                productId: product._id,
+                quantity: 1,
+            }, {
+                headers: { 'x-auth-token': localStorage.getItem('token') },
+            });
+            if (res.status == 200) alert('Added to cart');
+            else navigate('/login')
+        } catch (error) {
+            alert("Please login to add to cart");
+            navigate('/login');
+        }
     }
 
     return (

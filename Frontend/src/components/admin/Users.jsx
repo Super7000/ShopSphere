@@ -7,16 +7,21 @@ function Users() {
     const [show, setShow] = useState(false);
     const [editUser, setEditUser] = useState(null);
     const [newUser, setNewUser] = useState({ username: '', email: '', password: '', isAdmin: false });
+    const [error, setError] = useState(false)
 
     useEffect(() => {
         fetchUsers();
     }, []);
 
     const fetchUsers = async () => {
-        const response = await axios.get('http://localhost:5000/api/users', {
-            headers: { 'x-auth-token': localStorage.getItem('token') }
-        });
-        setUsers(response.data);
+        try {
+            const response = await axios.get('http://localhost:5000/api/users', {
+                headers: { 'x-auth-token': localStorage.getItem('token') }
+            });
+            setUsers(response.data);
+        } catch (err) {
+            setError(true)
+        }
     };
 
     const handleShow = (user = null) => {
@@ -59,6 +64,7 @@ function Users() {
         }
     };
 
+    if (error) return (error && <h2>This page is only available for admin account, please <a href={window.location.origin + "/login"}>login</a> with admin account to use.</h2>)
     return (
         <>
             <h1>Users</h1>

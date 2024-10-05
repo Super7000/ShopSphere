@@ -6,6 +6,7 @@ function Dashboard() {
     const [topUsers, setTopUsers] = useState([]);
     const [topProductsByPrice, setTopProductsByPrice] = useState([]);
     const [leastProductsByPrice, setLeastProductsByPrice] = useState([]);
+    const [error, setError] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,53 +34,59 @@ function Dashboard() {
                 setLeastProductsByPrice(leastProductsByPriceRes.data);
             } catch (err) {
                 console.error('Error fetching data', err);
+                setError(true)
             }
         };
 
         fetchData();
     }, []);
 
+    if (error) return (error && <h2>This page is only available for admin account, please <a href={window.location.origin + "/login"}>login</a> with admin account to use.</h2>)
     return (
         <div>
-            <h1>Dashboard</h1>
+            {error && <h2>This page is only available for admin account, please <a href={window.location.origin + "/login"}>login</a> with admin account to use.</h2>}
+            {!error &&
+                <>
+                    <h1>Dashboard</h1>
 
-            <section>
-                <h2>Most Sold Products</h2>
-                <ul>
-                    {mostSoldProducts.map(product => (
-                        <li key={product._id}>{product.product.name} - {product.totalSold} sold</li>
-                    ))}
-                    {mostSoldProducts.length === 0 && <li>No products found</li>} 
-                </ul>
-            </section>
+                    <section>
+                        <h2>Most Sold Products</h2>
+                        <ul>
+                            {mostSoldProducts.map(product => (
+                                <li key={product._id}>{product.product.name} - {product.totalSold} sold</li>
+                            ))}
+                            {mostSoldProducts.length === 0 && <li>No products found</li>}
+                        </ul>
+                    </section>
 
-            <section>
-                <h2>Top Users</h2>
-                <ul>
-                    {topUsers.map(user => (
-                        <li key={user._id}>{user.user.email} - {user.total} orders</li>
-                    ))}
-                    {topUsers.length === 0 && <li>No users found</li>}
-                </ul>
-            </section>
+                    <section>
+                        <h2>Top Users</h2>
+                        <ul>
+                            {topUsers.map(user => (
+                                <li key={user._id}>{user.user.email} - {user.total} orders</li>
+                            ))}
+                            {topUsers.length === 0 && <li>No users found</li>}
+                        </ul>
+                    </section>
 
-            <section>
-                <h2>Top Products by Price</h2>
-                <ul>
-                    {topProductsByPrice.map(product => (
-                        <li key={product._id}>{product.name} - ${product.price}</li>
-                    ))}
-                </ul>
-            </section>
+                    <section>
+                        <h2>Top Products by Price</h2>
+                        <ul>
+                            {topProductsByPrice.map(product => (
+                                <li key={product._id}>{product.name} - ${product.price}</li>
+                            ))}
+                        </ul>
+                    </section>
 
-            <section>
-                <h2>Least Products by Price</h2>
-                <ul>
-                    {leastProductsByPrice.map(product => (
-                        <li key={product._id}>{product.name} - ${product.price}</li>
-                    ))}
-                </ul>
-            </section>
+                    <section>
+                        <h2>Least Products by Price</h2>
+                        <ul>
+                            {leastProductsByPrice.map(product => (
+                                <li key={product._id}>{product.name} - ${product.price}</li>
+                            ))}
+                        </ul>
+                    </section>
+                </>}
         </div>
     );
 }
