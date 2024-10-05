@@ -18,7 +18,8 @@ function Cart() {
         if (res.status === 401) setIsLoggedIn(false)
         else {
             setIsLoggedIn(true)
-            setCartItems(res.data.products.map(e => { return { ...e.product, quantity: e.quantity } }) || []);
+            if (res.data && res.data.products)
+                setCartItems(res.data.products.map(e => { return { ...e.product, quantity: e.quantity } }) || []);
         }
     }
 

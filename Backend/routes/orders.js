@@ -4,17 +4,37 @@ const router = express.Router();
 const Order = require('../models/Order');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
+const Cart = require('../models/Cart');
 
 // Create a new order
 router.post('/', auth, async (req, res) => {
     try {
+        const cart = await Cart.findOne({ user: req.user.id }).populate('products.product');
+        if (!cart) {
+            return res.status(400).json({ message: 'Cart is empty' });
+        }
+
+        // Calculate total
+        let total = 0;
+        cart.products.forEach(item => {
+            total += item.product.price * item.quantity;
+        });
+
+        // Use the calculated total
+        req.body.total = total;
+
         const order = new Order({
             user: req.user.id,
-            products: req.body.products,
+            products: cart.products,
             total: req.body.total,
+            shippingAddress: req.body.address
         });
 
         const newOrder = await order.save();
+
+        // Clear the cart after order is placed
+        await Cart.findByIdAndDelete(cart._id);
+
         res.status(201).json(newOrder);
     } catch (err) {
         res.status(400).json({ message: err.message });

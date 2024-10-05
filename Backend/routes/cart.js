@@ -85,4 +85,36 @@ router.put('/:id', auth, async (req, res) => {
     }
 });
 
+//admin only
+router.get('/all', [auth, admin], async (req, res) => {
+    try {
+        const carts = await Cart.find().populate('user', 'username email');
+        res.json(carts);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+//admin only
+router.put('/:id', [auth, admin], async (req, res) => {
+    try {
+        const cart = await Cart.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!cart) return res.status(404).json({ message: 'Cart not found' });
+        res.json(cart);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+//admin only
+router.delete('/:id', [auth, admin], async (req, res) => {
+    try {
+        const cart = await Cart.findByIdAndDelete(req.params.id);
+        if (!cart) return res.status(404).json({ message: 'Cart not found' });
+        res.json({ message: 'Cart deleted' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 module.exports = router;

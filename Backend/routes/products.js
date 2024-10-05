@@ -29,10 +29,7 @@ router.get('/:id', async (req, res) => {
 // Create a product (admin only)
 router.post('/', [auth, admin], async (req, res) => {
     const product = new Product({
-        name: req.body.name,
-        description: req.body.description,
-        price: req.body.price,
-        imageUrl: req.body.imageUrl,
+        ...req.body,
     });
 
     try {
@@ -42,6 +39,7 @@ router.post('/', [auth, admin], async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 });
+
 // Update a product (admin only)
 router.put('/:id', [auth, admin], async (req, res) => {
     try {

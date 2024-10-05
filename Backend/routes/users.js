@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
 
 // Register a new user
 router.post('/register', async (req, res) => {
@@ -71,6 +72,28 @@ router.get('/profile', auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
         res.json(user);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+});
+
+// Get all users (admin only)
+router.get('/', [auth, admin], async (req, res) => {
+    try {
+        const users = await User.find().select('-password');
+        res.json(users);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+});
+
+// Delete a user (admin only)
+router.delete('/:id', [auth, admin], async (req, res) => {
+    try {
+        await User.findByIdAndRemove(req.params.id);
+        res.json({ message: 'User deleted' });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');

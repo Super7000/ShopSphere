@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,7 +20,7 @@ function Login() {
             const res = await axios.post('http://localhost:5000/api/users/login', formData);
             localStorage.setItem('token', res.data.token);
             alert('Login successful');
-            // Redirect to home page or dashboard
+            navigate(-1)
         } catch (error) {
             console.error('Login error', error.response.data);
         }

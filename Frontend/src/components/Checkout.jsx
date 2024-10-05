@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import axios from 'axios';
 
 function Checkout() {
     const [formData, setFormData] = useState({
@@ -12,10 +13,18 @@ function Checkout() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle checkout logic here
-        console.log('Checkout data:', formData);
+        try {
+            const response = await axios.post('http://localhost:5000/api/orders/', formData, {
+                headers: { 'x-auth-token': localStorage.getItem('token') }
+            });
+            if (response.status === 201) {
+                alert('Order placed successfully');
+            }
+        } catch (error) {
+            console.error('Error placing order:', error);
+        }
     };
 
     return (
