@@ -15,11 +15,12 @@ function Cart() {
         const res = await axios.get('http://localhost:5000/api/cart', {
             headers: { 'x-auth-token': localStorage.getItem('token') },
         });
-        if (res.status === 401) setIsLoggedIn(false)
-        else {
+        if (res.status === 200) {
             setIsLoggedIn(true)
             if (res.data && res.data.products)
                 setCartItems(res.data.products.map(e => { return { ...e.product, quantity: e.quantity } }) || []);
+        } else {
+            setIsLoggedIn(false)
         }
     }
 
@@ -39,8 +40,8 @@ function Cart() {
                     <h2>Your Cart</h2>
                     <ListGroup className='pt-2'>
                         {cartItems.map(item => (
-                            <ListGroup.Item key={item._id} className='d-flex justify-between'>
-                                {item.name} - ${item.price} x {item.quantity}
+                            <ListGroup.Item key={item._id} className='d-flex justify-between fs-5 align-items-center'>
+                                <Link to={'/product/' + item._id} className='text-decoration-none'>{item.name} - ${item.price} x {item.quantity}</Link>
                                 <Button variant='danger' className='ms-auto' onClick={() => removeProduct(item._id)}>Remove</Button>
                             </ListGroup.Item>
                         ))}
