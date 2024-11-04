@@ -21,6 +21,9 @@ The frontend application provides the user interface for our e-commerce platform
 
 For detailed information about the frontend, including setup instructions, development workflow, and deployment guidelines, please refer to the [Frontend README](./frontend/README.md).
 
+Add `/admin` after origin url to use admin features.
+Example: http://localhost:5000/admin/
+
 ## Getting Started
 
 To get the full application running locally:
