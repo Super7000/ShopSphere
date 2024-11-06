@@ -106,6 +106,7 @@ function Carts() {
                             </td>
                         </tr>
                     ))}
+                    {carts.length === 0 && <tr><td colSpan={4}>No Carts Found</td></tr>}
                 </tbody>
             </Table>
 

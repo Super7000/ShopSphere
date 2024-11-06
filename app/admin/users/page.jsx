@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form } from 'react-bootstrap';
 import axios from 'axios';
+import Loading from '../../loading';
 
 function Users() {
     const [users, setUsers] = useState([]);
@@ -80,7 +81,7 @@ function Users() {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map(user => (
+                    {users.length > 0 && users.map(user => (
                         <tr key={user._id}>
                             <td>{user.username}</td>
                             <td>{user.email}</td>
@@ -91,6 +92,7 @@ function Users() {
                             </td>
                         </tr>
                     ))}
+                    {users.length === 0 && <tr><td colSpan={4}><Loading /></td></tr>}
                 </tbody>
             </Table>
 

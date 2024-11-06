@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
+import Loading from '../../loading';
 
 function ProductDetail() {
     const [product, setProduct] = useState(null);
@@ -18,7 +19,7 @@ function ProductDetail() {
         fetchProduct();
     }, [id]);
 
-    if (!product) return <div>Loading...</div>;
+    if (!product) return <Loading />;
 
     async function addToCart() {
         try {
