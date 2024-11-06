@@ -394,20 +394,23 @@ All protected routes require a valid JWT token in the `x-auth-token` header.
     ```
 
 - **Remove from Cart**
+
   - **URL**: `/cart/:id`
   - **Method**: `DELETE`
   - **Description**: Remove a product from the cart.
   - **Response**:
+
     ```json
     {
       "message": "Product removed from cart successfully"
     }
     ```
 
-### Analysis
+### Admin
 
 - **Get Top Users**
-  - **URL**: `/analysis/top-users`
+
+  - **URL**: `/api/admin/analysis/top-users`
   - **Method**: `GET`
   - **Description**: Retrieve the top 10 users based on the number of orders.
   - **Response**:
@@ -423,6 +426,131 @@ All protected routes require a valid JWT token in the `x-auth-token` header.
         "total": 10
       }
     ]
+    ```
+
+- **Get Most Sold Products**
+
+  - **URL**: `/api/admin/analysis/most-sold-products`
+  - **Method**: `GET`
+  - **Description**: Retrieve the top 10 most sold products.
+  - **Response**:
+    ```json
+    [
+      {
+        "_id": "product_id",
+        "product": {
+          "_id": "product_id",
+          "name": "Product Name",
+          "description": "Product Description",
+          "price": 100,
+          "imageUrl": "http://example.com/image.jpg",
+          "category": "Category",
+          "stock": 50
+        },
+        "totalSold": 100
+      }
+    ]
+    ```
+
+- **Get Top Products by Price**
+
+  - **URL**: `/api/admin/analysis/top-products-by-price`
+  - **Method**: `GET`
+  - **Description**: Retrieve the top 10 products sorted by price in descending order.
+  - **Response**:
+    ```json
+    [
+      {
+        "_id": "product_id",
+        "name": "Product Name",
+        "description": "Product Description",
+        "price": 200,
+        "imageUrl": "http://example.com/image.jpg"
+      }
+    ]
+    ```
+
+- **Get Least Products by Price**
+  - **URL**: `/api/admin/analysis/least-products-by-price`
+  - **Method**: `GET`
+  - **Description**: Retrieve the top 10 products sorted by price in ascending order.
+  - **Response**:
+    ```json
+    [
+      {
+        "_id": "product_id",
+        "name": "Product Name",
+        "description": "Product Description",
+        "price": 50,
+        "imageUrl": "http://example.com/image.jpg"
+      }
+    ]
+    ```
+
+- **Get All Users**
+
+  - **URL**: `/admin/users`
+  - **Method**: `GET`
+  - **Description**: Retrieve a list of all users.
+  - **Response**:
+    ```json
+    [
+      {
+        "_id": "user_id",
+        "name": "User Name",
+        "email": "user@example.com",
+        "isAdmin": false
+      }
+    ]
+    ```
+
+- **Get User by ID**
+
+  - **URL**: `/admin/users/:id`
+  - **Method**: `GET`
+  - **Description**: Retrieve a user by their ID.
+  - **Response**:
+    ```json
+    {
+      "_id": "user_id",
+      "name": "User Name",
+      "email": "user@example.com",
+      "isAdmin": false
+    }
+    ```
+
+- **Update User**
+
+  - **URL**: `/admin/users/:id`
+  - **Method**: `PUT`
+  - **Description**: Update a user's details.
+  - **Request Body**:
+    ```json
+    {
+      "name": "Updated User Name",
+      "email": "updated_user@example.com",
+      "isAdmin": true
+    }
+    ```
+  - **Response**:
+    ```json
+    {
+      "_id": "user_id",
+      "name": "Updated User Name",
+      "email": "updated_user@example.com",
+      "isAdmin": true
+    }
+    ```
+
+- **Delete User**
+  - **URL**: `/admin/users/:id`
+  - **Method**: `DELETE`
+  - **Description**: Delete a user by their ID.
+  - **Response**:
+    ```json
+    {
+      "message": "User deleted successfully"
+    }
     ```
 
 ## Middleware
