@@ -1,5 +1,5 @@
-import Order from "@/app/api/models/Order";
-import dbConnect from "@/app/lib/db";
+import Order from "../../../models/Order";
+import dbConnect from "../../../../lib/db";
 
 export async function PUT(request, { params }) {
     const req = await request.json();

@@ -1,5 +1,3 @@
-import Image from "next/image";
-import styles from "./page.module.css";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import Link from "next/link";
 import NavigationBar from "./components/NavigationBar";

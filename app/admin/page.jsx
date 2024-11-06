@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Link from 'next/link';
 
 function Dashboard() {
     const [mostSoldProducts, setMostSoldProducts] = useState([]);
@@ -41,7 +42,7 @@ function Dashboard() {
         fetchData();
     }, []);
 
-    if (error) return (error && <h2>This page is only available for admin account, please <a href={window.location.origin + "/login"}>login</a> with admin account to use.</h2>)
+    if (error) return (error && <h2>This page is only available for admin account, please <Link href={"/login"}>login</Link> with admin account to use.</h2>)
     return (
         <div>
             {error && <h2>This page is only available for admin account, please <a href={window.location.origin + "/login"}>login</a> with admin account to use.</h2>}

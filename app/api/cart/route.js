@@ -1,7 +1,7 @@
-import dbConnect from "@/app/lib/db";
-import Cart from "@/app/api/models/Cart";
+import dbConnect from "../../lib/db";
+import Cart from "../models/Cart";
 import { cookies } from "next/headers";
-import Product from "@/app/api/models/Product";
+import Product from "../models/Product";
 
 export async function GET(request) {
     const cookieList = await cookies()

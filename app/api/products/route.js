@@ -1,5 +1,5 @@
-import dbConnect from "@/app/lib/db";
-import Product from "@/app/api/models/Product";
+import dbConnect from "../../lib/db";
+import Product from "../models/Product";
 
 export async function GET(request) {
     // Logic for handling GET requests

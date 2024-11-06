@@ -1,5 +1,5 @@
-import Cart from "@/app/api/models/Cart";
-import dbConnect from "@/app/lib/db";
+import Cart from "../../../models/Cart";
+import dbConnect from "../../../../lib/db";
 
 export async function PUT(request, { params }) {
     const req = await request.json();

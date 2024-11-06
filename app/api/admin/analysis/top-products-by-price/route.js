@@ -1,5 +1,6 @@
-import Product from "@/app/api/models/Product";
-import dbConnect from "@/app/lib/db";
+import Product from "../../../models/Product";
+import dbConnect from "../../../../lib/db";
+
 
 export async function GET(request) {
     await dbConnect()

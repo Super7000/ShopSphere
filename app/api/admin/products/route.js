@@ -1,5 +1,5 @@
 import Product from "../../models/Product";
-import dbConnect from "@/app/lib/db";
+import dbConnect from "../../../lib/db";
 
 export async function POST(request) {
     const req = await request.json();

@@ -1,4 +1,4 @@
-import dbConnect from "@/app/lib/db";
+import dbConnect from "../../../lib/db";
 import Product from "../../models/Product";
 
 export async function GET(request, { params }) {

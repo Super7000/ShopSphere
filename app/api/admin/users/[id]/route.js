@@ -1,5 +1,5 @@
-import User from "@/app/api/models/User";
-import dbConnect from "@/app/lib/db";
+import User from "../../../models/User";
+import dbConnect from "../../../../lib/db";
 
 export async function PUT(request, { params }) {
     const { id } = await params;

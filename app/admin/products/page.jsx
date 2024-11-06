@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useRef } from 'react';
-import ProductList from '@/app/products/page';
+import ProductList from '../../products/page';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import ProductFrom from './component/ProductFrom';
