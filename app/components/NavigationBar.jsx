@@ -35,6 +35,7 @@ function NavigationBar() {
                         <Nav.Link href='/'>Home</Nav.Link>
                         <Nav.Link href='/products'>Products</Nav.Link>
                         <Nav.Link href='/cart'>Cart</Nav.Link>
+                        <Nav.Link href="/blogs">Blogs</Nav.Link>
                         {!profileInfo && <>
                             <Nav.Link href='/login'>Login</Nav.Link>
                             <Nav.Link href='/register'>Register</Nav.Link>

@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import Loading from '../loading';
 
 function Login() {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
+    const [showLoader, setShowLoader] = useState(false);
     const navigate = useRouter();
 
     const handleChange = (e) => {
@@ -16,6 +18,7 @@ function Login() {
     };
 
     const handleSubmit = async (e) => {
+        setShowLoader(true);
         e.preventDefault();
         try {
             const res = await axios.post('/api/users/login', formData);
@@ -41,6 +44,7 @@ function Login() {
             <div className='d-grid'>
                 <Button style={{ justifySelf: 'start' }} variant="primary" type="submit">Login</Button>
             </div>
+            {showLoader && <Loading />}
         </Form>
     );
 }

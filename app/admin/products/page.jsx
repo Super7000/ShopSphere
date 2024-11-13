@@ -4,6 +4,7 @@ import ProductList from '../../products/page';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import ProductFrom from './component/ProductFrom';
+import Link from 'next/link';
 
 function Products() {
     const [showModal, setShowModal] = useState(false);
@@ -17,6 +18,7 @@ function Products() {
         stock: '',
         createdAt: ''
     });
+    const [error, setError] = useState(false)
 
     const fetcherFuncRef = useRef(() => { })
 
@@ -38,8 +40,10 @@ function Products() {
                 alert('Product updated successfully');
                 setShowModal(false);
             }
+            fetcherFuncRef.current()
         } catch (err) {
             console.log(err)
+            setError(error)
         }
     }
 
@@ -52,16 +56,19 @@ function Products() {
                 alert('Product deleted successfully');
                 setShowModal(false);
             }
+            fetcherFuncRef.current()
         } catch (err) {
             console.log(err)
+            setError(error)
         }
     }
 
+    if (error) return (error && <h2>This page is only available for admin account, please <Link href="/login">login</Link> with admin account to use.</h2>)
     return (
         <>
             <AddProduct onAdd={() => {
                 fetcherFuncRef.current()
-            }} />
+            }} onError={err => setError(err)} />
             <ProductList onProductClick={handleProductClick} fetcherFuncRef={fetcherFuncRef} />
             <ProductFrom
                 title={"Update Product Details"}
@@ -80,7 +87,7 @@ function Products() {
     );
 }
 
-function AddProduct({ onAdd = () => { } }) {
+function AddProduct({ onAdd = () => { }, onError = () => { } }) {
     const [showModal, setShowModal] = useState(false);
 
     const handleShow = () => setShowModal(true);
@@ -100,12 +107,13 @@ function AddProduct({ onAdd = () => { } }) {
             }
         } catch (err) {
             console.log(err);
+            onError(err)
         }
     }
 
     return (
         <>
-            <Button variant="primary" onClick={handleShow} style={{ position: 'fixed', bottom: '1rem', left: '1rem' }}>
+            <Button variant="primary" onClick={handleShow} style={{ position: 'fixed', bottom: '1rem', left: '1rem', zIndex: 10 }}>
                 Add
             </Button>
             <ProductFrom

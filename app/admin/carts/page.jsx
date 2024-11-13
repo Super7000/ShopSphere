@@ -80,7 +80,7 @@ function Carts() {
     return (
         <>
             <h1>Carts</h1>
-            <Button variant="primary" onClick={() => handleShow()} style={{ position: 'fixed', bottom: '1rem', left: "1rem" }}>Add</Button>
+            <Button variant="primary" onClick={() => handleShow()} style={{ position: 'fixed', bottom: '1rem', left: "1rem", zIndex: 10 }}>Add</Button>
             <Table striped bordered hover>
                 <thead>
                     <tr>

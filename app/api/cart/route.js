@@ -41,7 +41,6 @@ export async function POST(request) {
         let cart = await Cart.findOne({ user: user.id });
 
         if (!cart) {
-            console.log(req.productId)
             cart = new Cart({
                 user: user.id,
                 products: [{ product: req.productId, quantity: req.quantity }]

@@ -49,7 +49,6 @@ export async function middleware(request) {
 
         return res;
     } catch (error) {
-        console.log('2h')
         return NextResponse.json({ error: 'Invalid or expired token' }, { status: 401 });
     }
 }

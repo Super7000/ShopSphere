@@ -24,7 +24,7 @@ function AdminNavigationBar() {
     useEffect(() => {
         getProfileInfo();
     }, []);
-
+    if (!profileInfo) return null
     return (
         <Navbar bg="light" expand="lg" className="mb-4">
             <Container>
@@ -36,6 +36,7 @@ function AdminNavigationBar() {
                         <Nav.Link href="/admin/products">Products</Nav.Link>
                         <Nav.Link href="/admin/carts">Carts Details</Nav.Link>
                         <Nav.Link href="/admin/users">Users</Nav.Link>
+                        <Nav.Link href="/admin/blogs">Blogs</Nav.Link>
                         {!profileInfo && <>
                             <Nav.Link href='/login'>Login</Nav.Link>
                             <Nav.Link href='/register'>Register</Nav.Link>

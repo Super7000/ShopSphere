@@ -28,7 +28,7 @@ function ProductList({ onProductClick = () => { }, fetcherFuncRef = { current: n
                         <Card.Body>
                             <Card.Title>{product.name}</Card.Title>
                             <Card.Text>${product.price}</Card.Text>
-                            <Link href={`/products/${product._id}`} passHref>
+                            <Link href={`/products/${product._id}`} onClick={e => e.stopPropagation()} passHref>
                                 <Button variant="primary">View Details</Button>
                             </Link>
                         </Card.Body>
