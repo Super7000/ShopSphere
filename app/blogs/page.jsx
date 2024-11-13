@@ -3,6 +3,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import { Button, Card } from 'react-bootstrap';
+import Loading from '../loading';
 
 function Blogs() {
     const [blogs, setBlogs] = useState([]);
@@ -36,7 +37,7 @@ function Blogs() {
                         </Card>
                     </div>
                 ))}
-                {blogs.length === 0 && <div className="col-12"><p className="text-center">No blogs found</p></div>}
+                {blogs.length === 0 && <Loading />}
             </div>
         </div>
     )

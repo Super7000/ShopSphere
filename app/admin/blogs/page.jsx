@@ -3,6 +3,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import { Button, Card, Form, Modal } from 'react-bootstrap';
+import Loading from '../../loading';
 
 function Blogs() {
     const [show, setShow] = useState(false);
@@ -23,7 +24,6 @@ function Blogs() {
             setError(true)
         }
     };
-
 
     const handleShow = (user = null) => {
         setEditBlog(user);
@@ -97,7 +97,7 @@ function Blogs() {
                             </Card>
                         </div>
                     ))}
-                    {blogs.length === 0 && <div className="col-12"><p className="text-center">No blogs found</p></div>}
+                    {blogs.length === 0 && <Loading />}
                 </div>
             </div>
 
