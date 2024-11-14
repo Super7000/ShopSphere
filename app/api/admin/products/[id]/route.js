@@ -1,13 +1,35 @@
 import Product from "../../../models/Product";
 import dbConnect from "../../../../lib/db";
+import { uploadImg } from "../../../../lib/uploadImg"
+import { deleteImg } from "../../../../lib/deleteImg"
 
 export async function PUT(request, { params }) {
-    const req = await request.json();
+    const req = await request.formData();
     const { id } = await params;
 
     await dbConnect();
+
     try {
-        const product = await Product.findByIdAndUpdate(id, req, { new: true });
+        const file = req.get("image");
+        let imageUrl;
+        if (typeof file != "string") {
+            imageUrl = await uploadImg(file, id)
+        } else {
+            imageUrl = req.get("image");
+        }
+
+        const newProductDetails = {
+            name: req.get("name"),
+            description: req.get("description"),
+            price: req.get("price"),
+            category: req.get("category"),
+            imageUrl,
+            stock: req.get("stock"),
+            createdAt: req.get("createdAt")
+        }
+
+
+        const product = await Product.findByIdAndUpdate(id, newProductDetails, { new: true });
         if (!product) return new Response(JSON.stringify({ message: 'Product not found' }), {
             status: 404,
             headers: {
@@ -35,6 +57,9 @@ export async function DELETE(request, { params }) {
     await dbConnect();
     try {
         const product = await Product.findByIdAndDelete(id);
+        if (product.imageUrl) {
+            await deleteImg(product.imageUrl);
+        }
         if (!product) return new Response(JSON.stringify({ message: 'Product not found' }), {
             status: 404,
             headers: {

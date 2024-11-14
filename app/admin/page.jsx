@@ -2,13 +2,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import Loading from '../loading';
 
 function Dashboard() {
-    const [mostSoldProducts, setMostSoldProducts] = useState([]);
-    const [topUsers, setTopUsers] = useState([]);
-    const [topProductsByPrice, setTopProductsByPrice] = useState([]);
-    const [leastProductsByPrice, setLeastProductsByPrice] = useState([]);
-    const [error, setError] = useState(true)
+    const [mostSoldProducts, setMostSoldProducts] = useState(null);
+    const [topUsers, setTopUsers] = useState(null);
+    const [topProductsByPrice, setTopProductsByPrice] = useState(null);
+    const [leastProductsByPrice, setLeastProductsByPrice] = useState(null);
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,15 +43,14 @@ function Dashboard() {
         fetchData();
     }, []);
 
-    if (error) return (error && <h2>This page is only available for admin account, please <Link href={"/login"}>login</Link> with admin account to use.</h2>)
     return (
         <div>
-            {error && <h2>This page is only available for admin account, please <a href={window.location.origin + "/login"}>login</a> with admin account to use.</h2>}
+            {error && <h2>This page is only available for admin account, please <Link href={"/login"}>login</Link> with admin account to use.</h2>}
             {!error &&
                 <>
                     <h1>Dashboard</h1>
 
-                    <section>
+                    {mostSoldProducts ? <section>
                         <h2>Most Sold Products</h2>
                         <ul>
                             {mostSoldProducts.map(product => (
@@ -58,9 +58,9 @@ function Dashboard() {
                             ))}
                             {mostSoldProducts.length === 0 && <li>No products found</li>}
                         </ul>
-                    </section>
+                    </section> : <Loading />}
 
-                    <section>
+                    {topUsers ? <section>
                         <h2>Top Users</h2>
                         <ul>
                             {topUsers.map(user => (
@@ -68,25 +68,25 @@ function Dashboard() {
                             ))}
                             {topUsers.length === 0 && <li>No users found</li>}
                         </ul>
-                    </section>
+                    </section> : <Loading />}
 
-                    <section>
+                    {topProductsByPrice ? <section>
                         <h2>Top Products by Price</h2>
                         <ul>
                             {topProductsByPrice.map(product => (
                                 <li key={product._id}>{product.name} - ${product.price}</li>
                             ))}
                         </ul>
-                    </section>
+                    </section> : <Loading />}
 
-                    <section>
+                    {leastProductsByPrice ? <section>
                         <h2>Least Products by Price</h2>
                         <ul>
                             {leastProductsByPrice.map(product => (
                                 <li key={product._id}>{product.name} - ${product.price}</li>
                             ))}
                         </ul>
-                    </section>
+                    </section> : <Loading />}
                 </>}
         </div>
     );

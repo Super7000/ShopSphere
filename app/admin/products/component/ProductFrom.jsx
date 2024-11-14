@@ -7,7 +7,7 @@ function ProductFrom({ title = "Model", submitText = "Submit", show = false, onH
         name: '',
         description: '',
         price: '',
-        imageUrl: '',
+        image: null,
         category: '',
         stock: '',
         createdAt: ''
@@ -20,6 +20,13 @@ function ProductFrom({ title = "Model", submitText = "Submit", show = false, onH
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        if (name == 'image') {
+            setProductDetails(prevDetails => ({
+                ...prevDetails,
+                image: e.target.files[0]
+            }));
+            return;
+        }
         setProductDetails(prevDetails => ({
             ...prevDetails,
             [name]: value
@@ -65,13 +72,18 @@ function ProductFrom({ title = "Model", submitText = "Submit", show = false, onH
                         />
                     </Form.Group>
                     <Form.Group controlId="formProductImageUrl">
-                        <Form.Label>Image URL</Form.Label>
+                        <Form.Label>Image</Form.Label>
                         <Form.Control
-                            type="text"
-                            name="imageUrl"
-                            value={productDetails.imageUrl}
+                            className={typeof productDetails.image != 'string' ? 'd-block' : 'd-none'}
+                            type="file"
+                            accept="image/*"
+                            name="image"
                             onChange={handleChange}
                         />
+                        <br />
+                        <Form.Label className='w-100'>
+                            <img src={typeof productDetails.image != 'string' && productDetails.image != null ? URL.createObjectURL(productDetails.image) : productDetails.image} className='w-100 rounded' alt={productDetails.name} />
+                        </Form.Label>
                     </Form.Group>
                     <Form.Group controlId="formProductCategory">
                         <Form.Label>Category</Form.Label>

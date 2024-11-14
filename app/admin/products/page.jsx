@@ -32,8 +32,17 @@ function Products() {
     };
 
     async function onSubmitHandler(productDetails) {
+        const formData = new FormData();
+        formData.append('name', productDetails.name);
+        formData.append('description', productDetails.description);
+        formData.append('price', productDetails.price);
+        formData.append('image', productDetails.image);
+        formData.append('category', productDetails.category);
+        formData.append('stock', productDetails.stock);
+        formData.append('createdAt', productDetails.createdAt);
+
         try {
-            const res = await axios.put(`/api/admin/products/${productDetails._id}`, productDetails, {
+            const res = await axios.put(`/api/admin/products/${productDetails._id}`, formData, {
                 headers: { 'x-auth-token': localStorage.getItem('token') }
             });
             if (res.status == 200) {
@@ -76,7 +85,7 @@ function Products() {
                 show={showModal}
                 onHide={handleClose}
                 onSubmit={onSubmitHandler}
-                details={productDetails}
+                details={{ ...productDetails, image: productDetails.imageUrl }}
                 ExtraButton={() => (
                     <Button variant="danger" onClick={() => {
                         onDeleteHandler()
@@ -95,9 +104,16 @@ function AddProduct({ onAdd = () => { }, onError = () => { } }) {
 
     async function onSubmitHandler(newProduct) {
         try {
-            newProduct.price = Number(newProduct.price);
-            newProduct.stock = Number(newProduct.stock);
-            const res = await axios.post('/api/admin/products', newProduct, {
+            const formData = new FormData();
+            formData.append('name', newProduct.name);
+            formData.append('description', newProduct.description);
+            formData.append('price',  Number(newProduct.price));
+            formData.append('image', newProduct.image);
+            formData.append('category', newProduct.category);
+            formData.append('stock', Number(newProduct.stock));
+            formData.append('createdAt', newProduct.createdAt);
+
+            const res = await axios.post('/api/admin/products', formData, {
                 headers: { 'x-auth-token': localStorage.getItem('token') }
             });
             if (res.status === 201) {

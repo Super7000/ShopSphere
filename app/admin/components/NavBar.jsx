@@ -1,15 +1,16 @@
 'use client'
 import axios from 'axios';
+import { get } from 'http';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
 
-function AdminNavigationBar() {
+function AdminNavigationBar({ onError = () => { } }) {
     const [profileInfo, setProfileInfo] = useState(null)
 
     const navigate = useRouter();
 
-    async function getProfileInfo() {
+    const getProfileInfo = useCallback(async () => {
         try {
             const res = await axios.get('/api/users/profile', {
                 headers: { 'x-auth-token': localStorage.getItem('token') },
@@ -18,12 +19,14 @@ function AdminNavigationBar() {
         } catch (error) {
             console.log(error);
             setProfileInfo(null);
+            onError(error);
         }
-    }
+    }, [onError, setProfileInfo]);
 
     useEffect(() => {
         getProfileInfo();
-    }, []);
+    }, [getProfileInfo]);
+
     if (!profileInfo) return null
     return (
         <Navbar bg="light" expand="lg" className="mb-4">

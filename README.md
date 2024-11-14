@@ -399,48 +399,105 @@ All protected routes require a valid JWT token in the `x-auth-token` header.
   - **Method**: `DELETE`
   - **Description**: Remove a product from the cart.
   - **Response**:
-
     ```json
     {
       "message": "Product removed from cart successfully"
     }
     ```
 
-    ### Blogs
+### Blogs
 
-    - **Get All Blogs**
+- **Get All Blogs**
 
-      - **URL**: `/blogs`
-      - **Method**: `GET`
-      - **Description**: Retrieve a list of all blogs.
-      - **Response**:
-        ```json
-        [
-          {
-            "_id": "blog_id",
-            "title": "Blog Title",
-            "content": "Blog Content",
-            "author": "Author Name",
-            "createdAt": "2023-10-01T00:00:00.000Z"
-          }
-        ]
-        ```
+  - **URL**: `/blogs`
+  - **Method**: `GET`
+  - **Description**: Retrieve a list of all blogs.
+  - **Response**:
+    ```json
+    [
+      {
+        "_id": "blog_id",
+        "title": "Blog Title",
+        "content": "Blog Content",
+        "author": "Author Name",
+        "createdAt": "2023-10-01T00:00:00.000Z"
+      }
+    ]
+    ```
 
-    - **Get Blog by ID**
+- **Get Blog by ID**
 
-      - **URL**: `/blogs/:id`
-      - **Method**: `GET`
-      - **Description**: Retrieve a blog by its ID.
-      - **Response**:
-        ```json
-        {
-          "_id": "blog_id",
-          "title": "Blog Title",
-          "content": "Blog Content",
-          "author": "Author Name",
-          "createdAt": "2023-10-01T00:00:00.000Z"
-        }
-        ```
+  - **URL**: `/blogs/:id`
+  - **Method**: `GET`
+  - **Description**: Retrieve a blog by its ID.
+  - **Response**:
+    ```json
+    {
+      "_id": "blog_id",
+      "title": "Blog Title",
+      "content": "Blog Content",
+      "author": "Author Name",
+      "createdAt": "2023-10-01T00:00:00.000Z"
+    }
+    ```
+
+- **Create Blog**
+
+  - **URL**: `/blogs`
+  - **Method**: `POST`
+  - **Description**: Create a new blog.
+  - **Request Body**:
+    ```json
+    {
+      "title": "Blog Title",
+      "content": "Blog Content",
+      "author": "Author Name"
+    }
+    ```
+  - **Response**:
+    ```json
+    {
+      "_id": "blog_id",
+      "title": "Blog Title",
+      "content": "Blog Content",
+      "author": "Author Name",
+      "createdAt": "2023-10-01T00:00:00.000Z"
+    }
+    ```
+
+- **Update Blog**
+
+  - **URL**: `/blogs/:id`
+  - **Method**: `PUT`
+  - **Description**: Update an existing blog.
+  - **Request Body**:
+    ```json
+    {
+      "title": "Updated Blog Title",
+      "content": "Updated Blog Content"
+    }
+    ```
+  - **Response**:
+    ```json
+    {
+      "_id": "blog_id",
+      "title": "Updated Blog Title",
+      "content": "Updated Blog Content",
+      "author": "Author Name",
+      "createdAt": "2023-10-01T00:00:00.000Z"
+    }
+    ```
+
+- **Delete Blog**
+  - **URL**: `/blogs/:id`
+  - **Method**: `DELETE`
+  - **Description**: Delete a blog by its ID.
+  - **Response**:
+    ```json
+    {
+      "message": "Blog deleted successfully"
+    }
+    ```
 
 ### Admin
 
@@ -585,70 +642,11 @@ All protected routes require a valid JWT token in the `x-auth-token` header.
   - **Method**: `DELETE`
   - **Description**: Delete a user by their ID.
   - **Response**:
-
     ```json
     {
       "message": "User deleted successfully"
     }
     ```
-
-    - **Create Blog**
-
-      - **URL**: `/blogs`
-      - **Method**: `POST`
-      - **Description**: Create a new blog.
-      - **Request Body**:
-        ```json
-        {
-          "title": "Blog Title",
-          "content": "Blog Content",
-          "author": "Author Name"
-        }
-        ```
-      - **Response**:
-        ```json
-        {
-          "_id": "blog_id",
-          "title": "Blog Title",
-          "content": "Blog Content",
-          "author": "Author Name",
-          "createdAt": "2023-10-01T00:00:00.000Z"
-        }
-        ```
-
-    - **Update Blog**
-
-      - **URL**: `/blogs/:id`
-      - **Method**: `PUT`
-      - **Description**: Update an existing blog.
-      - **Request Body**:
-        ```json
-        {
-          "title": "Updated Blog Title",
-          "content": "Updated Blog Content"
-        }
-        ```
-      - **Response**:
-        ```json
-        {
-          "_id": "blog_id",
-          "title": "Updated Blog Title",
-          "content": "Updated Blog Content",
-          "author": "Author Name",
-          "createdAt": "2023-10-01T00:00:00.000Z"
-        }
-        ```
-
-    - **Delete Blog**
-      - **URL**: `/blogs/:id`
-      - **Method**: `DELETE`
-      - **Description**: Delete a blog by its ID.
-      - **Response**:
-        ```json
-        {
-          "message": "Blog deleted successfully"
-        }
-        ```
 
 ## Middleware
 
