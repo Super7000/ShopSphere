@@ -28,7 +28,52 @@ Here an admin account details through which you can use the admin page (only for
 Email: `jane@example.com`
 Password: `96141075`
 
+To use admin feature fully you need to run the code in local because vercel don't allow manipulation to files (images etc)
 
+## How To Setup 
+
+**Step 1:** First run `npm install` command in the root directory.
+
+**Step 2:** Create a new database called `e-commarce` after installing monogdb database into your system.
+
+**Step 3:** Create all these collections under `e-commarce` database (you can use mongodb compass for quick setup).
+
+![image](https://github.com/user-attachments/assets/91e7eff0-06b4-4c3d-adce-59f9c18d697b)
+
+Here some required collection data for quickset up (recommended):
+
+**products:**
+[e-commarce.products.json](https://github.com/user-attachments/files/17744115/e-commarce.products.json)
+
+**users:**
+[e-commarce.users.json](https://github.com/user-attachments/files/17744129/e-commarce.users.json)
+
+you can import these datas into your collection after creating them in e-commarce database
+
+**Step 4:** Add `MONGODB_URI` and `JWT_SECRET` Environment Variables in `.env.local` file in root directory read ## Environment Variables section for more details.
+
+**Step 5:** Now run `npm run dev` to start the server after that you can access the public page from [http://localhost:3000](http://localhost:3000) and admin page from: [http://localhost:3000/admin](http://localhost:3000/admin)
+
+**Step 6:** To use the admin page you need to login using an admin account.
+
+Here an admin account details through which you can use the admin page (if you used the quick setup data):
+
+Email: `jane@example.com`
+Password: `96141075`
+
+## Environment Variables
+
+- `MONGODB_URI`: Mongodb URI with database name for database connection.<br/>
+  example: `MONGODB_URI=mongodb+srv://username:password@cluster0.men5q.mongodb.net/e-commarce` or `MONGODB_URI=mongodb://localhost:27017/e-commarce`
+- `JWT_SECRET`: Secret key for JWT token verification.
+
+## Example Request Headers
+
+```json
+{
+  "x-auth-token": "jwt_token"
+}
+```
 
 ## Authentication
 
@@ -662,15 +707,3 @@ The middleware handles authentication and authorization for protected routes.
   - Verifies the JWT token from the `x-auth-token` header.
   - Attaches user data to the request if the token is valid.
   - Checks if the user has admin privileges for admin paths.
-
-## Environment Variables
-
-- `JWT_SECRET`: Secret key for JWT token verification.
-
-## Example Request Headers
-
-```json
-{
-  "x-auth-token": "jwt_token"
-}
-```
