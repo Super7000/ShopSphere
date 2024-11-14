@@ -89,10 +89,9 @@ function Blogs() {
                                         <small className="text-muted">Posted on {new Date(blog.createdAt).toLocaleDateString()}</small>
                                     </Card.Text>
                                     <Link href={`/blogs/${blog._id}`} onClick={e => e.stopPropagation()} passHref>
-                                        <Button className="mb-2" variant="primary">Read More</Button>
-                                    </Link><br />
-                                    <Button variant="secondary" onClick={() => handleShow(blog)}>Edit</Button>
-                                    <Button variant="danger" className='ms-2' onClick={() => handleDelete(blog._id)}>Delete</Button>
+                                        <Button variant="primary">Read More</Button>
+                                    </Link>
+                                    <Button variant="secondary" className='ms-2' onClick={() => handleShow(blog)}>Edit</Button>
                                 </Card.Body>
                             </Card>
                         </div>
@@ -140,9 +139,17 @@ function Blogs() {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>Close</Button>
-                    <Button variant="primary" onClick={handleSave}>Save Changes</Button>
+                    <Button variant="primary" onClick={async (e) => {
+                        e.target.disabled = true
+                        await handleSave()
+                        e.target.disabled = false
+                    }}>Save Changes</Button>
                     {editBlog && (
-                        <Button variant="danger" onClick={() => handleDelete(editBlog._id)}>Delete</Button>
+                        <Button variant="danger" onClick={async (e) => {
+                            e.target.disabled = true
+                            handleDelete(editBlog._id)
+                            e.target.disabled = false
+                        }}>Delete</Button>
                     )}
                 </Modal.Footer>
             </Modal>

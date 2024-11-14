@@ -1,8 +1,9 @@
 'use client'
 import React, { useState, useMemo } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
+import Loading from '../../../loading';
 
-function ProductFrom({ title = "Model", submitText = "Submit", show = false, onHide = () => { }, onSubmit = () => { }, details, ExtraButton }) {
+function ProductFrom({ title = "Model", submitText = "Submit", show = false, onHide = () => { }, onSubmit = async () => { }, details, ExtraButton }) {
     const [productDetails, setProductDetails] = useState(details || {
         name: '',
         description: '',
@@ -12,6 +13,7 @@ function ProductFrom({ title = "Model", submitText = "Submit", show = false, onH
         stock: '',
         createdAt: ''
     });
+    const [submitComplete, setSubmitComplete] = useState(true)
 
     useMemo(() => {
         if (details)
@@ -109,8 +111,14 @@ function ProductFrom({ title = "Model", submitText = "Submit", show = false, onH
                 <Button variant="secondary" onClick={onHide}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={() => onSubmit(productDetails)}>
-                    {submitText}
+                <Button variant="primary" onClick={async (e) => {
+                    e.target.disabled = true
+                    setSubmitComplete(false)
+                    await onSubmit(productDetails)
+                    e.target.disabled = false
+                    setSubmitComplete(true)
+                }}>
+                    {submitComplete ? submitText : <Loading size={15} borderWidth={2} color='white' />}
                 </Button>
                 {ExtraButton && <ExtraButton />}
             </Modal.Footer>

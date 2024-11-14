@@ -28,7 +28,7 @@ function NavigationBar() {
     return (
         <Navbar bg="light" expand="lg" className="mb-4">
             <Container>
-                <Navbar.Brand>E-commerce Store</Navbar.Brand>
+                <Navbar.Brand>ShopSphere</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav" className='justify-content-end'>
                     <Nav className="ml-auto align-items-center">

@@ -1,6 +1,5 @@
 'use client'
 import axios from 'axios';
-import { get } from 'http';
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
@@ -31,7 +30,7 @@ function AdminNavigationBar({ onError = () => { } }) {
     return (
         <Navbar bg="light" expand="lg" className="mb-4">
             <Container>
-                <Navbar.Brand href="/">E-commarce Admin Panel</Navbar.Brand>
+                <Navbar.Brand href="/">ShopSphere Admin Panel</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav" className='justify-content-end'>
                     <Nav className="ml-auto align-items-center">

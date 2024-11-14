@@ -5,6 +5,7 @@ import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import ProductFrom from './component/ProductFrom';
 import Link from 'next/link';
+import Loading from '../../loading';
 
 function Products() {
     const [showModal, setShowModal] = useState(false);
@@ -19,6 +20,7 @@ function Products() {
         createdAt: ''
     });
     const [error, setError] = useState(false)
+    const [submitComplete, setSubmitComplete] = useState(true)
 
     const fetcherFuncRef = useRef(() => { })
 
@@ -49,6 +51,7 @@ function Products() {
                 alert('Product updated successfully');
                 setShowModal(false);
             }
+            if (res.status == 401) setError('Unauthorized')
             fetcherFuncRef.current()
         } catch (err) {
             console.log(err)
@@ -87,10 +90,16 @@ function Products() {
                 onSubmit={onSubmitHandler}
                 details={{ ...productDetails, image: productDetails.imageUrl }}
                 ExtraButton={() => (
-                    <Button variant="danger" onClick={() => {
-                        onDeleteHandler()
-                        fetcherFuncRef.current()
-                    }}>Delete</Button>
+                    <Button variant="danger" onClick={async (e) => {
+                        e.target.disabled = true
+                        setSubmitComplete(false)
+                        await onDeleteHandler()
+                        await fetcherFuncRef.current()
+                        e.target.disabled = false
+                        setSubmitComplete(true)
+                    }}>
+                        {submitComplete ? 'Delete' : <Loading size={15} borderWidth={2} color='white' />}
+                    </Button>
                 )} />
         </>
     );
@@ -107,7 +116,7 @@ function AddProduct({ onAdd = () => { }, onError = () => { } }) {
             const formData = new FormData();
             formData.append('name', newProduct.name);
             formData.append('description', newProduct.description);
-            formData.append('price',  Number(newProduct.price));
+            formData.append('price', Number(newProduct.price));
             formData.append('image', newProduct.image);
             formData.append('category', newProduct.category);
             formData.append('stock', Number(newProduct.stock));
@@ -121,9 +130,10 @@ function AddProduct({ onAdd = () => { }, onError = () => { } }) {
                 setShowModal(false);
                 onAdd()
             }
+            if (res.status === 401) onError("Unauthorized")
         } catch (err) {
             console.log(err);
-            onError(err)
+            onError("Unauthorized")
         }
     }
 

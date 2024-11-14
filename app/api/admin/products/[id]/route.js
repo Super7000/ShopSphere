@@ -51,21 +51,41 @@ export async function PUT(request, { params }) {
         });
     }
 }
-
 export async function DELETE(request, { params }) {
-    const { id } = params;
+    const { id } = await params;
     await dbConnect();
+    const session = await Product.startSession();
+    session.startTransaction();
     try {
-        const product = await Product.findByIdAndDelete(id);
-        if (product.imageUrl) {
-            await deleteImg(product.imageUrl);
+        const product = await Product.findByIdAndDelete(id, { session });
+        if (!product) {
+            await session.abortTransaction();
+            session.endSession();
+            return new Response(JSON.stringify({ message: 'Product not found' }), {
+                status: 404,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
         }
-        if (!product) return new Response(JSON.stringify({ message: 'Product not found' }), {
-            status: 404,
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+
+        if (product.imageUrl) {
+            try {
+                await deleteImg(product.imageUrl);
+            } catch (err) {
+                await session.abortTransaction();
+                session.endSession();
+                return new Response(JSON.stringify({ message: 'Error deleting image, transaction aborted' }), {
+                    status: 500,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+            }
+        }
+
+        await session.commitTransaction();
+        session.endSession();
         return new Response(JSON.stringify({ message: 'Product deleted' }), {
             status: 200,
             headers: {
@@ -73,6 +93,8 @@ export async function DELETE(request, { params }) {
             },
         });
     } catch (err) {
+        await session.abortTransaction();
+        session.endSession();
         return new Response(JSON.stringify({ message: err.message }), {
             status: 500,
             headers: {

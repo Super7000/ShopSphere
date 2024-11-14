@@ -88,7 +88,11 @@ function Users() {
                             <td>{user.isAdmin ? 'Yes' : 'No'}</td>
                             <td className='d-flex gap-2'>
                                 <Button variant="warning" onClick={() => handleShow(user)}>Edit</Button>
-                                <Button variant="danger" onClick={() => handleDelete(user._id)}>Delete</Button>
+                                <Button variant="danger" onClick={async (e) => {
+                                    e.target.disabled = true
+                                    await handleDelete(user._id)
+                                    e.target.disabled = false
+                                }}>Delete</Button>
                             </td>
                         </tr>
                     ))}
@@ -144,7 +148,11 @@ function Users() {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>Close</Button>
-                    <Button variant="primary" onClick={handleSave}>Save Changes</Button>
+                    <Button variant="primary" onClick={async (e) => {
+                        e.target.disabled = true
+                        await handleSave()
+                        e.target.disabled = false
+                    }}>Save Changes</Button>
                 </Modal.Footer>
             </Modal>
         </>

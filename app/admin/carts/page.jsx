@@ -101,8 +101,16 @@ function Carts() {
                                 ))}
                             </td>
                             <td className='d-flex gap-2'>
-                                <Button variant="warning" onClick={() => handleShow(cart)}>Edit</Button>
-                                <Button variant="danger" onClick={() => handleDelete(cart._id)}>Delete</Button>
+                                <Button variant="warning" onClick={async (e) => {
+                                    e.target.disabled = true
+                                    await handleShow(cart)
+                                    e.target.disabled = false
+                                }}>Edit</Button>
+                                <Button variant="danger" onClick={async (e) => {
+                                    e.target.disabled = true
+                                    await handleDelete(cart._id)
+                                    e.target.disabled = false
+                                }}>Delete</Button>
                             </td>
                         </tr>
                     ))}
@@ -150,8 +158,16 @@ function Carts() {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>Close</Button>
-                    <Button variant="primary" onClick={handleSave}>Save Changes</Button>
+                    <Button variant="secondary" onClick={async (e) => {
+                        e.target.disabled = true
+                        await handleClose()
+                        e.target.disabled = false
+                    }}>Close</Button>
+                    <Button variant="primary" onClick={async (e) => {
+                        e.target.disabled = true
+                        await handleSave()
+                        e.target.disabled = false
+                    }}>Save Changes</Button>
                 </Modal.Footer>
             </Modal>
         </>
